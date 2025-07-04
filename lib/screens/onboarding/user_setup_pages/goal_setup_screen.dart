@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:pillar/screens/onboarding/features_pages/features_page.dart';
 import 'package:pillar/screens/onboarding/user_setup_pages/project_setup_screen.dart';
 
-class UsernameSetupScreen extends StatefulWidget {
-  const UsernameSetupScreen({super.key});
+class GoalSetupScreen extends StatefulWidget {
+  const GoalSetupScreen({super.key});
 
   @override
-  State<UsernameSetupScreen> createState() => _UsernameSetupScreenState();
+  State<GoalSetupScreen> createState() => _GoalSetupScreenState();
 }
 
-class _UsernameSetupScreenState extends State<UsernameSetupScreen> {
+class _GoalSetupScreenState extends State<GoalSetupScreen> {
   @override
   Widget build(BuildContext context) {
+    double _dailyHours = 0;
+    double _dailyMinutes = 0;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -27,31 +28,27 @@ class _UsernameSetupScreenState extends State<UsernameSetupScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Let's start with your name",
+                "How many hours do you want to study daily?",
                 style: TextStyle(fontSize: 20),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.8),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.blue.shade400,
-                      ),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
+                child: Slider(
+                  value: _dailyHours,
+                  min: 0.0,
+                  max: 8.0,
+                  divisions: 8,
+                  label: "${_dailyHours.toStringAsFixed(1)} hours",
+                  activeColor: Colors.white,
+                  inactiveColor: Colors.white.withOpacity(0.3), 
+                  onChanged: (value) => _dailyHours = value)
               ),
               Stack(
                 children: [
                   IconButton(
                     onPressed: () {
                       Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (_) => FeaturesPage()),
+                        MaterialPageRoute(builder: (_) => ProjectSetupScreen()),
                       );
                     },
                     icon: Icon(Icons.info, size: 30),
@@ -63,11 +60,11 @@ class _UsernameSetupScreenState extends State<UsernameSetupScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(
+                            /* Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (_) => ProjectSetupScreen(),
                               ),
-                            );
+                            ); */
                           },
                           style: ButtonStyle(
                             elevation: WidgetStateProperty.all(7.0),
