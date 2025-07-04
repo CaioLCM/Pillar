@@ -11,7 +11,7 @@ class OrganizePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.folder_open, size: 100, color: Colors.blue,),
+          Icon(Icons.folder_open, size: 100, color: Color.fromARGB(255, 1, 85, 153),),
           Text("Organize your projects!", style: TextStyle(fontSize: 28),),
           Text("All in one app", style: TextStyle(fontSize: 16),),
           Padding(
@@ -19,13 +19,13 @@ class OrganizePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(radius: 7),
+                  CircleAvatar(radius: 7, backgroundColor: Colors.grey[400]),
                   SizedBox(width: 5),
+                  CircleAvatar(radius: 7, backgroundColor: Color.fromARGB(255, 1, 85, 153),),
+                  SizedBox(width: 5,),
                   CircleAvatar(radius: 7, backgroundColor: Colors.grey[400],),
                   SizedBox(width: 5,),
-                  CircleAvatar(radius: 7,),
-                  SizedBox(width: 5,),
-                  CircleAvatar(radius: 7,),
+                  CircleAvatar(radius: 7, backgroundColor: Colors.grey[400]),
                 ],
               ),
             )

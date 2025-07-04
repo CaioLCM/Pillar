@@ -12,7 +12,7 @@ class WelcomePage extends StatelessWidget {
           child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.school, size: 100, color: Colors.blue,),
+            Icon(Icons.school, size: 100, color: const Color.fromARGB(255, 1, 85, 153),),
             Text("Welcome to Pillar!", style: TextStyle(fontSize: 28),),
             Text("Transform your study", style: TextStyle(fontSize: 16),),
             Padding(
@@ -20,13 +20,13 @@ class WelcomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(radius: 7, backgroundColor: Colors.grey[400],),
+                  CircleAvatar(radius: 7, backgroundColor: Color.fromARGB(255, 1, 85, 153),),
                   SizedBox(width: 5,),
-                  CircleAvatar(radius: 7),
+                  CircleAvatar(radius: 7, backgroundColor: Colors.grey[400]),
                   SizedBox(width: 5,),
-                  CircleAvatar(radius: 7,),
+                  CircleAvatar(radius: 7, backgroundColor: Colors.grey[400]),
                   SizedBox(width: 5,),
-                  CircleAvatar(radius: 7,),
+                  CircleAvatar(radius: 7, backgroundColor: Colors.grey[400]),
                 ],
               ),
             )

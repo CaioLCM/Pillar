@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pillar/controllers/user_controller.dart';
 import 'package:pillar/screens/dashboard/main_app_screen.dart';
 import 'package:pillar/screens/home/widgets/loading_widget.dart';
-import 'package:pillar/screens/onboarding/pages/features_page.dart';
-import 'package:pillar/screens/onboarding/pages/welcome_page.dart';
-import 'package:pillar/screens/onboarding/user_setup_screen.dart';
+import 'package:pillar/screens/onboarding/features_pages/features_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
