@@ -19,7 +19,7 @@ class UserData {
     };
   }
 
-  factory UserData.fromJson(Map<String, String> json) {
+  factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
       name: json["name"] ?? "",
       profile_picture: json["profile_picture"] ?? "",

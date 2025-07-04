@@ -29,4 +29,18 @@ class JsonStorageService {
     final jsonString = jsonEncode(userData.toJson());
     await file.writeAsString(jsonString); // <-- Cria o arquivo
   }
+
+  Future<UserData?> loadUserData() async {
+    final file = await _userFile;
+
+    if (!await file.exists()){
+      return null;
+    }
+
+    final jsonString = await file.readAsString();
+
+    final jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
+
+    return UserData.fromJson(jsonMap);
+  }
 }
