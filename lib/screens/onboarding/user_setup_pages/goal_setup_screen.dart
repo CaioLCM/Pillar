@@ -9,10 +9,10 @@ class GoalSetupScreen extends StatefulWidget {
 }
 
 class _GoalSetupScreenState extends State<GoalSetupScreen> {
+  double _dailyHours = 2.0; // ← Movida para FORA do build()
+  
   @override
   Widget build(BuildContext context) {
-    double _dailyHours = 0;
-    double _dailyMinutes = 0;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -28,9 +28,23 @@ class _GoalSetupScreenState extends State<GoalSetupScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "How many hours do you want to study daily?",
-                style: TextStyle(fontSize: 20),
+                "Study daily hours",
+                style: TextStyle(fontSize: 20, color: Colors.black),
               ),
+              
+              SizedBox(height: 30),
+              
+              // Display do valor atual
+              Text(
+                "${_dailyHours.toStringAsFixed(1)} hours",
+                style: TextStyle(
+                  fontSize: 36, 
+                  color: Colors.white, 
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+              
+              SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Slider(
@@ -41,17 +55,48 @@ class _GoalSetupScreenState extends State<GoalSetupScreen> {
                   label: "${_dailyHours.toStringAsFixed(1)} hours",
                   activeColor: Colors.white,
                   inactiveColor: Colors.white.withOpacity(0.3), 
-                  onChanged: (value) => _dailyHours = value)
+                  onChanged: (value){
+                    setState(() {
+                      _dailyHours = value;
+                    });
+                  })
               ),
               Stack(
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (_) => ProjectSetupScreen()),
-                      );
-                    },
-                    icon: Icon(Icons.info, size: 30),
+                 Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (_) => ProjectSetupScreen(),
+                              ),
+                            ); 
+                          },
+                          style: ButtonStyle(
+                            elevation: WidgetStateProperty.all(7.0),
+                            backgroundColor: WidgetStateProperty.all(
+                              Colors.blue[400],
+                            ),
+                            minimumSize: WidgetStateProperty.all(
+                              const Size(100, 40),
+                            ),
+                            foregroundColor: WidgetStateProperty.all(
+                              Colors.black,
+                            ),
+                            shape: WidgetStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          child: Icon(Icons.arrow_back),
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

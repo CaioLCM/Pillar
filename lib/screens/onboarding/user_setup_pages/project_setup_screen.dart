@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pillar/screens/onboarding/user_setup_pages/goal_setup_screen.dart';
 import 'package:pillar/screens/onboarding/user_setup_pages/username_setup_screen.dart';
 
 class ProjectSetupScreen extends StatelessWidget {
@@ -50,11 +51,11 @@ class ProjectSetupScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          /* Navigator.of(context).pushReplacement(
+                          Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (_) => ProjectSetupScreen(),
+                              builder: (_) => GoalSetupScreen(),
                             ),
-                          ); */
+                          ); 
                         },
                         style: ButtonStyle(
                           elevation: WidgetStateProperty.all(7.0),
