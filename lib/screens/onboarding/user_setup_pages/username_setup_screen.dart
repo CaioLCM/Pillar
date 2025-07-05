@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pillar/core/providers/onboarding_provider.dart';
 import 'package:pillar/screens/onboarding/features_pages/features_page.dart';
 import 'package:pillar/screens/onboarding/user_setup_pages/project_setup_screen.dart';
+import 'package:provider/provider.dart';
 
 class UsernameSetupScreen extends StatefulWidget {
   const UsernameSetupScreen({super.key});
@@ -10,6 +12,26 @@ class UsernameSetupScreen extends StatefulWidget {
 }
 
 class _UsernameSetupScreenState extends State<UsernameSetupScreen> {
+
+  TextEditingController username_controller = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      final provider = Provider.of<OnboardingProvider>(context, listen: false);
+      if (provider.onboardingData.username != null){
+        username_controller.text = provider.onboardingData.username!;
+      }
+    });
+
+    username_controller.addListener((){
+      final provider = Provider.of<OnboardingProvider>(context, listen: false);
+      provider.updateUsername(username_controller.text);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +55,7 @@ class _UsernameSetupScreenState extends State<UsernameSetupScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  controller: username_controller,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white.withOpacity(0.8),

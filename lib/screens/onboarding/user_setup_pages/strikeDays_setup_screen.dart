@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pillar/core/providers/onboarding_provider.dart';
 import 'package:pillar/screens/onboarding/user_setup_pages/goal_setup_screen.dart';
+import 'package:provider/provider.dart';
 
 class StrikedaysSetupScreen extends StatefulWidget {
   const StrikedaysSetupScreen({super.key});
@@ -21,6 +23,35 @@ class _StrikedaysSetupState extends State<StrikedaysSetupScreen> {
 
   int? selectedDays;
   String? selectedOption;
+
+  String _getOptionFromDays(int days) {
+  switch (days) {
+    case 1: return "1 day";
+    case 3: return "3 days";
+    case 5: return "5 days";
+    case 7: return "1 week";
+    case 14: return "2 weeks";
+    case 21: return "3 weeks";
+    case 28: return "1 month";
+    default: return "1 day";
+  }
+}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      final provider = Provider.of<OnboardingProvider>(context, listen: false);
+      if (provider.onboardingData.streakGoal != null){
+        setState(() {
+          int savedDays = provider.onboardingData.streakGoal!;
+          String savedOption = _getOptionFromDays(savedDays);
+          _selectOption(savedDays, savedOption);
+        });
+      }
+    });
+  }
 
   void _selectOption(int days, String option) {
     setState(() {
@@ -44,6 +75,9 @@ class _StrikedaysSetupState extends State<StrikedaysSetupScreen> {
       if (option == "2 weeks") week2 = Colors.blue[400]!;
       if (option == "3 weeks") week3 = Colors.blue[400]!;
       if (option == "1 month") month = Colors.blue[400]!;
+
+      final provider = Provider.of<OnboardingProvider>(context, listen: false);
+      provider.updateStreakGoal(days);
     });
   }
 

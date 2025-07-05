@@ -1,9 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:pillar/core/providers/onboarding_provider.dart';
 import 'package:pillar/screens/onboarding/user_setup_pages/goal_setup_screen.dart';
 import 'package:pillar/screens/onboarding/user_setup_pages/username_setup_screen.dart';
+import 'package:provider/provider.dart';
 
-class ProjectSetupScreen extends StatelessWidget {
+class ProjectSetupScreen extends StatefulWidget {
   const ProjectSetupScreen({super.key});
+
+  @override
+  State<ProjectSetupScreen> createState() => _ProjectSetupScreenState();
+}
+
+class _ProjectSetupScreenState extends State<ProjectSetupScreen> {
+  TextEditingController project_name_controller = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      final provider = Provider.of<OnboardingProvider>(context, listen: false);
+      if (provider.onboardingData.username != null){
+        project_name_controller.text = provider.onboardingData.projectName!;
+      }
+    });
+
+    project_name_controller.addListener((){
+      final provider = Provider.of<OnboardingProvider>(context, listen: false);
+      provider.updateProjectName(project_name_controller.text);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +53,7 @@ class ProjectSetupScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: study_name_controller,
+                controller: project_name_controller,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white.withOpacity(0.8),
