@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pillar/screens/onboarding/user_setup_pages/project_setup_screen.dart';
+import 'package:pillar/screens/onboarding/user_setup_pages/strikeDays_setup_screen.dart';
 
 class GoalSetupScreen extends StatefulWidget {
   const GoalSetupScreen({super.key});
@@ -105,11 +106,11 @@ class _GoalSetupScreenState extends State<GoalSetupScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            /* Navigator.of(context).pushReplacement(
+                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                builder: (_) => ProjectSetupScreen(),
+                                builder: (_) => StrikedaysSetupScreen(),
                               ),
-                            ); */
+                            );
                           },
                           style: ButtonStyle(
                             elevation: WidgetStateProperty.all(7.0),
