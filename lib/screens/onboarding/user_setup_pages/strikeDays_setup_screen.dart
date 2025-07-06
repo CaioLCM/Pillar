@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pillar/core/providers/onboarding_provider.dart';
+import 'package:pillar/screens/home/home_screen.dart';
 import 'package:pillar/screens/onboarding/user_setup_pages/goal_setup_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -25,25 +26,33 @@ class _StrikedaysSetupState extends State<StrikedaysSetupScreen> {
   String? selectedOption;
 
   String _getOptionFromDays(int days) {
-  switch (days) {
-    case 1: return "1 day";
-    case 3: return "3 days";
-    case 5: return "5 days";
-    case 7: return "1 week";
-    case 14: return "2 weeks";
-    case 21: return "3 weeks";
-    case 28: return "1 month";
-    default: return "1 day";
+    switch (days) {
+      case 1:
+        return "1 day";
+      case 3:
+        return "3 days";
+      case 5:
+        return "5 days";
+      case 7:
+        return "1 week";
+      case 14:
+        return "2 weeks";
+      case 21:
+        return "3 weeks";
+      case 28:
+        return "1 month";
+      default:
+        return "1 day";
+    }
   }
-}
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<OnboardingProvider>(context, listen: false);
-      if (provider.onboardingData.streakGoal != null){
+      if (provider.onboardingData.streakGoal != null) {
         setState(() {
           int savedDays = provider.onboardingData.streakGoal!;
           String savedOption = _getOptionFromDays(savedDays);
@@ -311,11 +320,32 @@ class _StrikedaysSetupState extends State<StrikedaysSetupScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
                           onPressed: () {
-                            /* Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (_) => ProjectSetupScreen(),
-                              ),
-                            ); */
+                            final provider = Provider.of<OnboardingProvider>(
+                              context,
+                              listen: false,
+                            );
+
+                            if (provider.isComplete) {
+                              provider.finishOnboarding().then((success) {
+                                if (success) {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (_) => HomeScreen(),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Error to save data"),
+                                    ),
+                                  );
+                                }
+                              });
+                            } else{
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Complete all the info"))
+                              );
+                            }
                           },
                           style: ButtonStyle(
                             elevation: WidgetStateProperty.all(7.0),

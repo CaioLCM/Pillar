@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:pillar/core/models/onboarding_data.dart';
+import 'package:pillar/core/models/user_data.dart';
+import 'package:pillar/core/services/json_storage_service.dart';
 // Make sure that the file 'onboarding_data.dart' exists and defines a class named 'OnboardingData'
 
 class OnboardingProvider extends ChangeNotifier {
@@ -39,6 +41,29 @@ class OnboardingProvider extends ChangeNotifier {
        _onboardingData.projectName!.isNotEmpty &&
        _onboardingData.dailyGoal != null && 
        _onboardingData.streakGoal != null;
+  }
+
+  Future<bool> finishOnboarding() async {
+    if (!isComplete){
+      return false;
+    }
+
+    try {
+      final userData = UserData(
+        name: _onboardingData.username!,
+        totalFocusHours: 0.0
+        );
+
+        final jsonService = JsonStorageService();
+        await jsonService.saveUserData(userData);
+
+        clearData();
+
+        return true;
+    } catch (e) {
+      print("Error to end onboarding $e");
+      return false;
+    }
   }
 
   Future<void> saveToStorage() async{
