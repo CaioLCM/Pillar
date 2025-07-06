@@ -1,5 +1,6 @@
 class UserData {
   String name;
+  String? profileImagePath;
   String profile_picture = '';
   DateTime createdAt = DateTime.now();
   double totalFocusHours = 0;
@@ -7,6 +8,7 @@ class UserData {
     required this.name,
     this.profile_picture = '',
     this.totalFocusHours = 0,
+    this.profileImagePath,
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 
@@ -14,6 +16,7 @@ class UserData {
     return {
       "name": name,
       "profile_picture": profile_picture,
+      "profileImagePath": profileImagePath,
       "createdAt": createdAt.toIso8601String(),
       "totalFocusHours": totalFocusHours,
     };
@@ -23,6 +26,8 @@ class UserData {
     return UserData(
       name: json["name"] ?? "",
       profile_picture: json["profile_picture"] ?? "",
+      profileImagePath: json["profileImagePath"],
+      totalFocusHours: json["totalFocusHours"]?.toDouble() ?? 0.0
     );
   }
 }

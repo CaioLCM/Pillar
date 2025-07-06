@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pillar/core/models/user_data.dart';
 import 'package:pillar/core/services/json_storage_service.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({super.key});
@@ -11,6 +15,9 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
+  File? _profileImage;
+  final ImagePicker _picker = ImagePicker();
+
   Widget _buildStatCard({
     required IconData icon,
     required String title,
@@ -54,6 +61,124 @@ class _MainAppScreenState extends State<MainAppScreen> {
   Future<String> _getUserName() async {
     UserData? userData = await storageService.loadUserData();
     return userData?.name ?? "User name";
+  }
+
+  Future<void> _pickImageFromCamera() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.camera,
+        maxWidth: 300,
+        maxHeight: 300,
+        imageQuality: 85,
+      );
+      if (image != null) {
+        String? savedPath = await _saveImageToAppDirectory(File(image.path));
+
+        if(savedPath != null){
+        setState(() {
+          _profileImage = File(savedPath);
+        });
+
+        }
+
+        await _saveProfileImagePath(savedPath!);
+
+        Navigator.pop(context);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Profile picture saved"))
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error to open the camera")));
+    }
+  }
+
+  Future<void> _pickImageFromGallery() async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 300,
+        maxHeight: 300,
+        imageQuality: 85,
+      );
+      if (image != null) {
+
+        String? savedPath = await _saveImageToAppDirectory(File(image.path));
+
+        setState(() {
+          _profileImage = File(savedPath!);
+        });
+
+        await _saveProfileImagePath(savedPath!);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Profile picture saved")));
+
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error to open galery")));
+    }
+  }
+
+  Future<String?> _saveImageToAppDirectory(File imageFile) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+
+      final fileName = 'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final newPath = '${directory.path}/$fileName';
+
+      final savedImage = await imageFile.copy(newPath);
+
+      return savedImage.path;
+    } catch (e){
+      return null;
+    }
+  }
+
+  Future<void> _saveProfileImagePath(String imagePath) async {
+    try {
+      UserData? userData = await storageService.loadUserData();
+
+      if (userData != null){
+        userData.profileImagePath = imagePath;
+
+        await storageService.saveUserData(userData);
+
+        print("Image saved");
+      }
+    } catch (e){
+      print("Error to save image");
+    }
+  }
+
+  Future<void> _loadSavedProfileImage() async {
+    try {
+      UserData? userData = await storageService.loadUserData();
+
+      if (userData != null && userData.profileImagePath != null){
+        File imageFile = File(userData.profileImagePath!);
+
+        if (await imageFile.exists()){
+          setState(() {
+            _profileImage = imageFile;
+          });
+        }
+      }
+    } catch (e){
+      print("Eror to load image");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadSavedProfileImage();
   }
 
   @override
@@ -133,7 +258,52 @@ class _MainAppScreenState extends State<MainAppScreen> {
                     ),
                     child: Stack(
                       children: [
-                        CircleAvatar(radius: 100, child: IconButton(onPressed: (){}, icon: Icon(Icons.photo_size_select_actual_rounded)),),
+                        CircleAvatar(
+                          backgroundImage:
+                              _profileImage != null
+                                  ? FileImage(_profileImage!)
+                                  : null,
+                          radius: 100,
+                          child: IconButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder:
+                                    (context) => Container(
+                                      height: 130,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              _pickImageFromCamera();
+                                            },
+                                            icon: Icon(
+                                              Icons.camera_alt,
+                                              size: 30,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              _pickImageFromGallery();
+                                            },
+                                            icon: Icon(
+                                              Icons.folder_copy,
+                                              size: 30,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.photo_size_select_actual_rounded,
+                              size: 30,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
