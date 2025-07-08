@@ -26,7 +26,8 @@ class NavigatorWidget extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => ProjectsPage()));
           }, icon: Icon(Icons.school_outlined, color: Colors.white,)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.person_2_outlined, color: Colors.white,))
+          IconButton(onPressed: (){}, icon: Icon(Icons.person_2_outlined, color: Colors.white,)),
+          IconButton(onPressed: (){}, icon: Icon(Icons.settings_outlined, color: Colors.white,))
         ],
       ),
     );

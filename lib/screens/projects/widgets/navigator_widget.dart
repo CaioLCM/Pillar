@@ -34,6 +34,7 @@ class NavigatorWidget extends StatelessWidget {
             onPressed: () {},
             icon: Icon(Icons.person_2_outlined, color: Colors.white),
           ),
+          IconButton(onPressed: (){}, icon: Icon(Icons.settings_outlined, color: Colors.white,))
         ],
       ),
     );

@@ -16,7 +16,7 @@ class UserController {
     if (name.trim().isEmpty){
       throw Exception("Invalid name");
     }
-    UserData userData = UserData(name: name, profile_picture: profile_picture ?? "");
+    UserData userData = UserData(name: name, profileImagePath: profile_picture ?? "");
     await _storageService.saveUserData(userData);
   }
 

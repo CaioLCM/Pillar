@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
 import 'package:pillar/core/models/onboarding_data.dart';
+import 'package:pillar/core/models/project.dart';
 import 'package:pillar/core/models/user_data.dart';
 import 'package:pillar/core/services/json_storage_service.dart';
 // Make sure that the file 'onboarding_data.dart' exists and defines a class named 'OnboardingData'
@@ -49,9 +52,20 @@ class OnboardingProvider extends ChangeNotifier {
     }
 
     try {
+      final firstProject = Project(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: _onboardingData.projectName ?? "My project",
+        createdAt: DateTime.now(),
+        color: Colors.purple,
+        icon: Icon(Icons.school),
+      );
+
       final userData = UserData(
         name: _onboardingData.username!,
-        totalFocusHours: 0.0
+        totalFocusHours: 0.0,
+        dailyGoal: _onboardingData.dailyGoal,
+        streakGoal: _onboardingData.streakGoal,
+        projects: [firstProject]
         );
 
         final jsonService = JsonStorageService();

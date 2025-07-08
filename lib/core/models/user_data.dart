@@ -1,33 +1,46 @@
+import 'package:pillar/core/models/project.dart';
+
 class UserData {
   String name;
   String? profileImagePath;
-  String profile_picture = '';
+  List<Project> projects;
   DateTime createdAt = DateTime.now();
   double totalFocusHours = 0;
+  int? streakGoal;
+  int? dailyGoal;
+
   UserData({
     required this.name,
-    this.profile_picture = '',
+    this.profileImagePath = '',
+    this.projects = const [],
     this.totalFocusHours = 0,
-    this.profileImagePath,
+    this.dailyGoal,
+    this.streakGoal,
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
 
   Map<String, dynamic> toJson() {
     return {
       "name": name,
-      "profile_picture": profile_picture,
       "profileImagePath": profileImagePath,
+      "projects": projects.map((p) => p.toJson()).toList(),
       "createdAt": createdAt.toIso8601String(),
       "totalFocusHours": totalFocusHours,
+      "dailyGoal": dailyGoal,
+      "streakGoal": streakGoal
     };
   }
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
       name: json["name"] ?? "",
-      profile_picture: json["profile_picture"] ?? "",
       profileImagePath: json["profileImagePath"],
-      totalFocusHours: json["totalFocusHours"]?.toDouble() ?? 0.0
+      projects: (json["projects"] as List<dynamic>?)
+      ?.map((p) => Project.fromJson(p)).toList() ?? [],
+      createdAt: DateTime.parse(json["createdAt"]),
+      totalFocusHours: json["totalFocusHours"]?.toDouble() ?? 0.0,
+      dailyGoal: json["dailyGoal"],
+      streakGoal: json["streakGoal"]
     );
   }
 }
