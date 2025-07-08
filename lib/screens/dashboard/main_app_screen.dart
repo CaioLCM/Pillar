@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pillar/core/models/user_data.dart';
 import 'package:pillar/core/services/json_storage_service.dart';
+import 'package:pillar/screens/dashboard/widgets/navigator_widget.dart';
+import 'package:pillar/screens/projects/projects_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -184,7 +186,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+     /*  appBar: AppBar(
         backgroundColor: Colors.purple[700],
         elevation: 8,
         title: Center(
@@ -222,14 +224,14 @@ class _MainAppScreenState extends State<MainAppScreen> {
           onSelected: (value) {
             switch (value) {
               case "Projects":
-                //navigator
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => ProjectsPage()));
                 break;
               case "Dashboard":
                 break;
             }
           },
         ),
-      ),
+      ), */
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -243,6 +245,10 @@ class _MainAppScreenState extends State<MainAppScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: NavigatorWidget(),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -393,6 +399,9 @@ class _MainAppScreenState extends State<MainAppScreen> {
                     calendarFormat: CalendarFormat.month,
                   ),
                 ),
+                ElevatedButton(onPressed: ()async{
+                  await storageService.deleteUserData();
+                }, child: Text("Reset user data"))
               ],
             ),
           ),

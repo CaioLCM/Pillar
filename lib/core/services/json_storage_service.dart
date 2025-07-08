@@ -43,4 +43,12 @@ class JsonStorageService {
 
     return UserData.fromJson(jsonMap);
   }
+
+  Future<void> deleteUserData() async{
+    final file = await _userFile;
+
+    if (await file.exists()){
+      await file.delete();
+    }
+  }
 }
