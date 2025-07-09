@@ -3,6 +3,7 @@ import 'package:pillar/core/models/project.dart';
 import 'package:pillar/core/models/user_data.dart';
 import 'package:pillar/core/services/json_storage_service.dart';
 import 'package:pillar/screens/dashboard/main_app_screen.dart';
+import 'package:pillar/screens/projects/create_project_page.dart';
 import 'package:pillar/screens/projects/widgets/navigator_widget.dart';
 
 class ProjectsPage extends StatefulWidget {
@@ -147,19 +148,22 @@ class _ProjectsPageState extends State<ProjectsPage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                fixedSize: WidgetStatePropertyAll(Size(200, 15)),
+                fixedSize: WidgetStatePropertyAll(Size(225, 15)),
                 backgroundColor: WidgetStatePropertyAll(Colors.purple),
                 elevation: WidgetStatePropertyAll(5),
                 shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                   borderRadius: BorderRadius.horizontal()
                 ))
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => CreateProjectPage()));
+              },
               child: Text(
-                "Create new project",
-                style: TextStyle(color: Colors.white),
+                "Create new study project",
+                style: TextStyle(color: Colors.white, fontSize: 15),
               ),
             ),
+            SizedBox(height: 15,),
             ...userProjects.map((project) => _buildProjectCard(
               subjectName: project.name,
               color: project.color,

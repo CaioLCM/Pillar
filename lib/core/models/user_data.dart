@@ -3,6 +3,7 @@ import 'package:pillar/core/models/project.dart';
 class UserData {
   String name;
   String? profileImagePath;
+  String? mainGoal;
   List<Project> projects;
   DateTime createdAt = DateTime.now();
   double totalFocusHours = 0;
@@ -11,6 +12,7 @@ class UserData {
 
   UserData({
     required this.name,
+    this.mainGoal,
     this.profileImagePath = '',
     this.projects = const [],
     this.totalFocusHours = 0,
@@ -23,6 +25,7 @@ class UserData {
     return {
       "name": name,
       "profileImagePath": profileImagePath,
+      "mainGoal": mainGoal,
       "projects": projects.map((p) => p.toJson()).toList(),
       "createdAt": createdAt.toIso8601String(),
       "totalFocusHours": totalFocusHours,
@@ -35,6 +38,7 @@ class UserData {
     return UserData(
       name: json["name"] ?? "",
       profileImagePath: json["profileImagePath"],
+      mainGoal: json["mainGoal"],
       projects: (json["projects"] as List<dynamic>?)
       ?.map((p) => Project.fromJson(p)).toList() ?? [],
       createdAt: DateTime.parse(json["createdAt"]),

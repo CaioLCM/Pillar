@@ -24,6 +24,30 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   JsonStorageService storageService = JsonStorageService();
 
+  Future<void> _saveUserData() async {
+    try {
+      UserData? userData = await storageService.loadUserData();
+      if (userData != null) {
+        userData.name = _nameController.text;
+        userData.dailyGoal = int.tryParse(_hoursController.text);
+        userData.streakGoal = int.tryParse(_strikeController.text);
+        userData.mainGoal = _goalController.text;
+
+        await storageService.saveUserData(userData);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Data saved with success!"),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      print("Error to save new info: $e");
+    }
+  }
+
   Future<String> _getUserName() async {
     UserData? userData = await storageService.loadUserData();
     return userData?.name ?? "User name";
@@ -38,6 +62,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           _nameController.text = userData.name;
           _hoursController.text = userData.dailyGoal?.toString() ?? "";
           _strikeController.text = userData.streakGoal?.toString() ?? "";
+          _goalController.text = userData.mainGoal ?? "";
         });
       }
     } catch (e) {
@@ -232,7 +257,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   Positioned(
                     top: 140,
                     left: 350,
-                    child: IconButton(onPressed: (){}, icon: Icon(Icons.save, color: Colors.purple, size: 30,))),
+                    child: IconButton(
+                      onPressed: () async{
+                        await _saveUserData();
+                      },
+                      icon: Icon(Icons.save, color: Colors.purple, size: 30),
+                    ),
+                  ),
                   Positioned(
                     top: 150,
                     left: 260,
@@ -248,19 +279,26 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                   (context) => Container(
                                     height: 130,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         IconButton(
                                           onPressed: () {
                                             _pickImageFromCamera();
                                           },
-                                          icon: Icon(Icons.camera_alt, size: 30),
+                                          icon: Icon(
+                                            Icons.camera_alt,
+                                            size: 30,
+                                          ),
                                         ),
                                         IconButton(
                                           onPressed: () {
                                             _pickImageFromGallery();
                                           },
-                                          icon: Icon(Icons.folder_copy, size: 30),
+                                          icon: Icon(
+                                            Icons.folder_copy,
+                                            size: 30,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -410,7 +448,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                               filled: true,
                               hintText: "Main goal 💪",
                             ),
-                            keyboardType: TextInputType.number,
+                            controller: _goalController,
                           ),
                         ),
                       ],
