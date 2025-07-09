@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pillar/screens/dashboard/main_app_screen.dart';
-import 'package:pillar/screens/personalInfo/personal_info_page.dart';
 import 'package:pillar/screens/projects/projects_page.dart';
 
 class NavigatorWidget extends StatelessWidget {
@@ -21,23 +20,26 @@ class NavigatorWidget extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (_) => MainAppScreen()),
-              );
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => MainAppScreen()));
             },
             icon: Icon(Icons.leaderboard_outlined, color: Colors.white),
           ),
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.school, color: Colors.white),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (_) => ProjectsPage()),
+              );
+            },
+            icon: Icon(Icons.school_outlined, color: Colors.white),
           ),
           IconButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => PersonalInfoPage()));
-            },
-            icon: Icon(Icons.person_2_outlined, color: Colors.white),
+            onPressed: () {},
+            icon: Icon(Icons.person_2, color: Colors.white),
           ),
-          IconButton(onPressed: (){}, icon: Icon(Icons.settings_outlined, color: Colors.white,))
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.settings_outlined, color: Colors.white),
+          ),
         ],
       ),
     );

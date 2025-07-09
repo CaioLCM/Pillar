@@ -270,45 +270,6 @@ class _MainAppScreenState extends State<MainAppScreen> {
                                   ? FileImage(_profileImage!)
                                   : null,
                           radius: 100,
-                          child: IconButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                builder:
-                                    (context) => Container(
-                                      height: 130,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              _pickImageFromCamera();
-                                            },
-                                            icon: Icon(
-                                              Icons.camera_alt,
-                                              size: 30,
-                                            ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              _pickImageFromGallery();
-                                            },
-                                            icon: Icon(
-                                              Icons.folder_copy,
-                                              size: 30,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                              );
-                            },
-                            icon: Icon(
-                              Icons.photo_size_select_actual_rounded,
-                              size: 30,
-                            ),
-                          ),
                         ),
                       ],
                     ),

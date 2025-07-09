@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pillar/screens/personalInfo/personal_info_page.dart';
 import 'package:pillar/screens/projects/projects_page.dart';
 
 class NavigatorWidget extends StatelessWidget {
@@ -26,7 +27,9 @@ class NavigatorWidget extends StatelessWidget {
           IconButton(onPressed: (){
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => ProjectsPage()));
           }, icon: Icon(Icons.school_outlined, color: Colors.white,)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.person_2_outlined, color: Colors.white,)),
+          IconButton(onPressed: (){
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => PersonalInfoPage()));
+          }, icon: Icon(Icons.person_2_outlined, color: Colors.white,)),
           IconButton(onPressed: (){}, icon: Icon(Icons.settings_outlined, color: Colors.white,))
         ],
       ),
