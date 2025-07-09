@@ -156,7 +156,12 @@ class _ProjectsPageState extends State<ProjectsPage> {
                 ))
               ),
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => CreateProjectPage()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) => CreateProjectPage())
+                ).then((result){
+                  setState(() {
+                  });
+                  _loadUserProjects();
+                });
               },
               child: Text(
                 "Create new study project",
